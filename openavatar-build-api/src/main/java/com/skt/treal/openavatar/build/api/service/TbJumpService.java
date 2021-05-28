@@ -56,6 +56,7 @@ public class TbJumpService extends BaseService {
 			TbJumpTemplate template = tbJumpTemplateMapper.selectTbJumpTemplateByTemplateId(detail.getTemplateId());
 			reqJumpBuildVo.setPlatform(EnTraFileName.ALL.name());
 			reqJumpBuildVo.setProcessingType( EnFileType.TEMPLATE_TRO.getCode() );
+			reqJumpBuildVo.setOutputFilePath( makePath(openAvatarProperties.getStorage().getOutput(), detail.getWebglPath(), detail.getJumpId(), EnFileType.TRO ) );
 			// XXX 
 			reqJumpBuildVo.setInputFilePath( "" );
 			reqJumpBuildVo.setMainTexture( "" );
