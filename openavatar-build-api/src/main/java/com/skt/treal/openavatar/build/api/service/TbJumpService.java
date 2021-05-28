@@ -45,15 +45,6 @@ public class TbJumpService extends BaseService {
 		}
 		// 요청 Id 데이터 조회
 		TbJump detail = tbJumpMapper.selectTbJumpDetailByJumpId(jumpId);
-		
-		Path inputPath = Paths.get(openAvatarProperties.getStorage().getDefaultPath(), openAvatarProperties.getStorage().getInput(),
-				detail.getSaveJumpFilePath(), String.valueOf(detail.getJumpId()));
-		// outputPath : {project_path}/output/jump/{jump_id}/
-		Path outputPath = Paths.get(openAvatarProperties.getStorage().getDefaultPath(), openAvatarProperties.getStorage().getOutput(),
-				detail.getWebglPath(), String.valueOf(detail.getJumpId()));
-		// logFilePath : {project_path}/output/jump/{jump_id}/log/
-		Path logFilePath = Paths.get(openAvatarProperties.getStorage().getDefaultPath(), openAvatarProperties.getStorage().getOutput(),
-				detail.getWebglPath(), String.valueOf(detail.getJumpId()), EnFileType.LOG.getCode());
 		// Queue 에 보낼 메세지 Object 생성
 		ReqJumpBuildVO reqJumpBuildVo = new ReqJumpBuildVO();
 		reqJumpBuildVo.setPlatform( EnTraFileName.WebGL.name() );
@@ -64,12 +55,14 @@ public class TbJumpService extends BaseService {
 		if( EnJumpType.TEMPLATE.getCode().equals(detail.getJumpType()) ) {
 			TbJumpTemplate template = tbJumpTemplateMapper.selectTbJumpTemplateByTemplateId(detail.getTemplateId());
 			reqJumpBuildVo.setPlatform(EnTraFileName.ALL.name());
-			reqJumpBuildVo.setInputFilePath(template.getJumpFilePath());
 			reqJumpBuildVo.setProcessingType( EnFileType.TEMPLATE_TRO.getCode() );
+			// XXX 
+			reqJumpBuildVo.setInputFilePath( "" );
 			reqJumpBuildVo.setMainTexture( "" );
+			// XXX
 		}
-//		// Queue 에 담기
-//		reqBuildJobService.requestJumpBuildJob(reqJumpBuildVo);
+		// Queue 에 담기
+		reqBuildJobService.requestJumpBuildJob(reqJumpBuildVo);
 	}
 	
 	private String makePath( String subPath, String saveFilePath, Integer jumpId , EnFileType enFileType  ) {

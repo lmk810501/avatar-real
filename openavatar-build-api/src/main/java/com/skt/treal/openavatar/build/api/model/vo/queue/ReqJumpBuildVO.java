@@ -18,6 +18,12 @@ public class ReqJumpBuildVO implements Serializable {
 	private String processingType;
 	private Integer rename;
 	private String mainTexture;
-
+	
+	@Override
+	public String toString() {
+		return "ReqJumpBuildVO [platform=" + platform + ", inputFilePath=" + inputFilePath + ", outputFilePath="
+				+ outputFilePath + ", logFilePath=" + logFilePath + ", processingType=" + processingType + ", rename="
+				+ rename + ", mainTexture=" + mainTexture + "]";
+	}
 	
 }
