@@ -57,10 +57,10 @@ public class TbJumpService extends BaseService {
 			reqJumpBuildVo.setPlatform(EnTraFileName.ALL.name());
 			reqJumpBuildVo.setProcessingType( EnFileType.TEMPLATE_TRO.getCode() );
 			reqJumpBuildVo.setOutputFilePath( makePath(openAvatarProperties.getStorage().getOutput(), detail.getWebglPath(), detail.getJumpId(), EnFileType.TRO ) );
-			// XXX 
+			// XXX 추후 수정
 			reqJumpBuildVo.setInputFilePath( "" + template.getJumpFilePath() );
 			reqJumpBuildVo.setMainTexture( "" );
-			// XXX
+			// XXX 추후 수정
 		}
 		// Queue 에 담기
 		reqBuildJobService.requestJumpBuildJob(reqJumpBuildVo);
