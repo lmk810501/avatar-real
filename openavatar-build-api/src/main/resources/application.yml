@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: Open Avatar Build API
+  config:
+    import: application-#spring.profiles.active#.yml
+  datasource:
+    hikari:
+      connectionTimeout: 30000
+      minimum-idle: 2
+      maximum-pool-size: 100
+      idle-timeout: 60000
+      max-lifetime: 115000 # 현재 적용 값 : 2분 - 5초 / 기존 적용 값 : 1200000
+      auto-commit: false
+      
+# Mybtis
+mybatis:
+  # mapper.xml 위치 설정
+  mapper-locations: classpath:com/skt/treal/openavatar/build/api/persist/**/*.xml
+  # 패키지 명을 생략할 수 있도록 alias 설정
+  type-aliases-package: com.skt.treal.openavatar.build.api.model.domain

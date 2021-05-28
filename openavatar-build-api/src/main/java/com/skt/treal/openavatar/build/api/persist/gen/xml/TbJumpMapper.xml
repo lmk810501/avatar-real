@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skt.treal.openavatar.build.api.persist.gen.mapper.TbJumpMapper">
+	<resultMap id="BaseResultMap" type="TbJump">
+		<id 	column="jump_id" 			 jdbcType="INTEGER" 	property="jumpId" />
+		<result column="template_id" 		 jdbcType="INTEGER" 	property="templateId" />
+		<result column="categorykey" 		 jdbcType="VARCHAR" 	property="categorykey" />
+		<result column="itemkey" 			 jdbcType="INTEGER" 	property="itemkey" />
+		<result column="jump_type" 			 jdbcType="VARCHAR" 	property="jumpType" />
+		<result column="org_jump_file" 		 jdbcType="VARCHAR" 	property="orgJumpFile" />
+		<result column="save_jump_file" 	 jdbcType="VARCHAR" 	property="saveJumpFile" />
+		<result column="save_jump_file_path" jdbcType="VARCHAR" 	property="saveJumpFilePath" />
+		<result column="webgl_path"			 jdbcType="VARCHAR" 	property="webglPath" />
+		<result column="work_status"		 jdbcType="VARCHAR" 	property="workStatus" />
+		<result column="return_reason"		 jdbcType="VARCHAR" 	property="returnReson" />
+		<result column="tag"				 jdbcType="VARCHAR" 	property="tag" />
+		<result column="del_yn" 			 jdbcType="VARCHAR" 	property="delYn" />
+		<result column="create_user"		 jdbcType="INTEGER" 	property="createUser" />
+		<result column="create_datetime"	 jdbcType="TIMESTAMP" 	property="createDatetime" />
+		<result column="modify_user" 		 jdbcType="INTEGER" 	property="modifyUser" />
+		<result column="modify_datetime" 	 jdbcType="TIMESTAMP" 	property="modifyDatetime" />
+	</resultMap>
+	
+	<select id="selectAllTbJump" parameterType="TbJump" resultMap="BaseResultMap">
+		SELECT
+			*
+		FROM
+			tb_jump
+		WHERE
+			 1=1
+			 <if test="jumpId != null">
+			 	AND
+			 		jump_id = #{jumpId,jdbcType=INTEGER}
+			 </if>
+			 <if test="templateId != null">
+			 	AND
+			 		template_id = #{templateId,jdbcType=INTEGER}
+			 </if>
+			 <if test="categorykey != null">
+			 	AND
+			 		categorykey = #{categorykey,jdbcType=VARCHAR}
+			 </if>
+			 <if test="itemkey != null">
+			 	AND
+			 		itemkey = #{itemkey,jdbcType=INTEGER}
+			 </if>
+			 <if test="jumpType != null">
+			 	AND
+			 		jump_type = #{jumpType,jdbcType=VARCHAR}
+			 </if>
+			 <if test="orgJumpFile != null">
+			 	AND
+			 		org_jump_file = #{orgJumpFile,jdbcType=VARCHAR}
+			 </if>
+			 <if test="saveJumpFile != null">
+			 	AND
+			 		save_jump_file = #{saveJumpFile,jdbcType=VARCHAR}
+			 </if>
+			 <if test="saveJumpFilePath != null">
+			 	AND
+			 		save_jump_file_path = #{saveJumpFilePath,jdbcType=VARCHAR}
+			 </if>
+			 <if test="webglPath != null">
+			 	AND
+			 		webgl_path = #{webglPath,jdbcType=VARCHAR}
+			 </if>
+			 <if test="workStatus != null">
+			 	AND
+			 		work_status = #{workStatus,jdbcType=VARCHAR}
+			 </if>
+			 <if test="returnReason != null">
+			 	AND
+			 		return_reason = #{returnReason,jdbcType=VARCHAR}
+			 </if>
+			 <if test="tag != null">
+			 	AND
+			 		tag = #{tag,jdbcType=VARCHAR}
+			 </if>
+			 <if test="delYn != null">
+			 	AND
+			 		del_yn = #{delYn,jdbcType=VARCHAR}
+			 </if>
+			 <if test="createUser != null">
+			 	AND
+			 		create_user = #{createUser,jdbcType=INTEGER}
+			 </if>
+			 <if test="createDatetime != null">
+			 	AND
+			 		create_datetime = #{createDatetime,jdbcType=TIMESTAMP}
+			 </if>
+			 <if test="modifyUser != null">
+			 	AND
+			 		modify_user = #{modifyUser,jdbcType=INTEGER}
+			 </if>
+			 <if test="modifyDatetime != null">
+			 	AND
+			 		modify_datetime = #{modifyDatetime,jdbcType=TIMESTAMP}
+			 </if>
+	</select>
+	<select id="selectTbJumpByJumpIdAndWorkStatus" parameterType="TbJump" resultMap="BaseResultMap">
+		SELECT
+			*
+		FROM
+			tb_jump
+		WHERE
+			itemkey = (
+				SELECT
+					itemkey
+				FROM
+					tb_jump
+				WHERE
+					jump_id = #{jumpId,jdbcType=INTEGER}
+			)
+		AND
+			work_status != #{workStatus,jdbcType=INTEGER}
+		AND
+			jump_id != #{jumpId,jdbcType=INTEGER}
+	</select>
+	<select id="selectTbJumpDetailByJumpId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT
+			*
+		FROM
+			tb_jump
+		WHERE
+			jump_id = #{jumpId,jdbcType=INTEGER}
+	</select>
+	<update id="updateAllTbJumpByWorkStatus" parameterType="java.util.List">
+		<foreach collection="list" item="item" open="" close="" separator=";">
+			UPDATE
+				tb_jump
+			SET
+				work_status = #{item.workStatus,jdbcType=VARCHAR}
+			WHERE
+				jump_id = #{item.jumpId,jdbcType=INTEGER}
+		</foreach>
+	</update>
+</mapper>
