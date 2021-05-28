@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.skt.treal.openavatar.build.api.mapper.TbItemTroMapper">
+	<resultMap type="TbItemTro" id="BaseResultMap">
+		<id 	column="tro_id"				jdbcType="INTEGER"		property="troId" />
+		<result column="itemkey" 		 	jdbcType="INTEGER"		property="itemkey" />
+		<result column="platform" 			jdbcType="VARCHAR"		property="platform" />
+		<result column="tro_path"			jdbcType="VARCHAR"		property="troPath" />
+		<result column="create_user"		jdbcType="INTEGER"		property="createUser" />
+		<result column="create_datetime"	jdbcType="TIMESTAMP"	property="createDatetime" />
+		<result column="modify_user"		jdbcType="INTEGER"		property="modifyUser" />
+		<result column="modify_datetime"	jdbcType="TIMESTAMP"	property="modifyDatetime" />
+	</resultMap>
+	
+	<select id="selectTbItemTroByTroId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT
+			*
+		FROM
+			tb_item_tro
+		WHERE
+			tro_id = #{troId,jdbcType=INTEGER}
+	</select>
+</mapper>

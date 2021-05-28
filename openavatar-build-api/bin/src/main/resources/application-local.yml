@@ -1,0 +1,43 @@
+logging:
+  file:
+    path: /home/tomcat/open-avatar-api/logs
+  level:
+    com.zaxxer.hikari.HikariConfig: debug
+    com.zaxxer.hikari: debug
+    com.skt.treal.openavatar.build.api: debug
+  config: classpath:logback-spring.xml
+  
+spring:
+  profiles:
+    include: local
+
+  activemq:
+    in-memory: true
+    pool:
+      enabled: false
+    broker-url: failover:(tcp://192.168.0.59:61616,tcp://192.168.0.59:61618)?randomize=false&maxReconnectDelay=1000
+    user: admin
+    password: admin
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://211.104.171.242:3306/avatardb?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&autoReconnectForPools=true&serverTimezone=Asia/Seoul&allowMultiQueries=true
+#    username: avataruser
+#    password: Avatar1q2w3e!@
+    url: jdbc:mysql://127.0.0.1:3306/activemq?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&autoReconnectForPools=true&serverTimezone=Asia/Seoul&allowMultiQueries=true
+    username: localtest
+    password: a030201@
+    
+open-avatar:
+  storage:
+    temp-zip-dir: E:\A-OpenAvatar_tempFile\TRP_TEMP_FILE
+    trp-file-name: Product
+    template-dir:
+      jump:
+      thumbnail:
+    input:
+      jump:
+      thumbnail:
+    output:
+      jump:
+      item:
+  api-url: http://127.0.0.1:8080
