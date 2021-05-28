@@ -33,7 +33,6 @@ public class TroService extends BaseService {
 	@Autowired
 	private OpenAvatarProperties openAvatarProperties;
 	
-	
 	public void makeTrpFile() {
 		log.info("### Create TRA File Start ###");
 		List<Tra> items = new ArrayList<Tra>();
