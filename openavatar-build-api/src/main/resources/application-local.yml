@@ -30,14 +30,9 @@ spring:
 open-avatar:
   storage:
     temp-zip-dir: E:\A-OpenAvatar_tempFile\TRP_TEMP_FILE
-    trp-file-name: Product
-    template-dir:
-      jump:
-      thumbnail:
-    input:
-      jump:
-      thumbnail:
-    output:
-      jump:
-      item:
+    trp-file-name: Jump
+    default-path: E:\A-OpenAvatar_tempFile
+    template-dir: /template/
+    input: /input/
+    output: /output/
   api-url: http://127.0.0.1:8080

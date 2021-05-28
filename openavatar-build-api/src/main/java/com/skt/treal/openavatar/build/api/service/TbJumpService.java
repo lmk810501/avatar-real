@@ -1,10 +1,16 @@
 package com.skt.treal.openavatar.build.api.service;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.skt.treal.openavatar.build.api.config.OpenAvatarProperties;
+import com.skt.treal.openavatar.build.api.mapper.TbJumpMapper;
+import com.skt.treal.openavatar.build.api.mapper.TbJumpTemplateMapper;
 import com.skt.treal.openavatar.build.api.model.domain.TbJump;
 import com.skt.treal.openavatar.build.api.model.domain.TbJumpTemplate;
 import com.skt.treal.openavatar.build.api.model.enums.EnFileType;
@@ -12,14 +18,14 @@ import com.skt.treal.openavatar.build.api.model.enums.EnJumpType;
 import com.skt.treal.openavatar.build.api.model.enums.EnJumpWorkStatus;
 import com.skt.treal.openavatar.build.api.model.enums.EnTraFileName;
 import com.skt.treal.openavatar.build.api.model.vo.queue.ReqJumpBuildVO;
-import com.skt.treal.openavatar.build.api.persist.gen.mapper.TbJumpMapper;
-import com.skt.treal.openavatar.build.api.persist.gen.mapper.TbJumpTemplateMapper;
 
 @Service
 public class TbJumpService extends BaseService {
 
 	@Autowired
 	private RequestJumpBuildJobService reqBuildJobService;
+	@Autowired
+	private OpenAvatarProperties openAvatarProperties;
 	@Autowired
 	private TbJumpMapper tbJumpMapper;
 	@Autowired
@@ -34,16 +40,27 @@ public class TbJumpService extends BaseService {
 		items.stream().forEach(item -> {
 			item.setWorkStatus(EnJumpWorkStatus.CC.getCode());
 		});
-		tbJumpMapper.updateAllTbJumpByWorkStatus(items);
+		if( items.size() != 0 ) {
+			tbJumpMapper.updateAllTbJumpByWorkStatus(items);
+		}
 		// 요청 Id 데이터 조회
 		TbJump detail = tbJumpMapper.selectTbJumpDetailByJumpId(jumpId);
+		
+		Path inputPath = Paths.get(openAvatarProperties.getStorage().getDefaultPath(), openAvatarProperties.getStorage().getInput(),
+				detail.getSaveJumpFilePath(), String.valueOf(detail.getJumpId()));
+		// outputPath : {project_path}/output/jump/{jump_id}/
+		Path outputPath = Paths.get(openAvatarProperties.getStorage().getDefaultPath(), openAvatarProperties.getStorage().getOutput(),
+				detail.getWebglPath(), String.valueOf(detail.getJumpId()));
+		// logFilePath : {project_path}/output/jump/{jump_id}/log/
+		Path logFilePath = Paths.get(openAvatarProperties.getStorage().getDefaultPath(), openAvatarProperties.getStorage().getOutput(),
+				detail.getWebglPath(), String.valueOf(detail.getJumpId()), EnFileType.LOG.getCode());
 		// Queue 에 보낼 메세지 Object 생성
 		ReqJumpBuildVO reqJumpBuildVo = new ReqJumpBuildVO();
-		reqJumpBuildVo.setPlatform(EnTraFileName.WebGL.name());
-		reqJumpBuildVo.setInputFilePath(null);
-		reqJumpBuildVo.setOutputFilePath(null);
-		reqJumpBuildVo.setLogFilePath(null);
-		reqJumpBuildVo.setRename(null);
+		reqJumpBuildVo.setPlatform( EnTraFileName.WebGL.name() );
+		reqJumpBuildVo.setInputFilePath( makePath(openAvatarProperties.getStorage().getInput(), detail.getSaveJumpFilePath(), detail.getJumpId(), null) );
+		reqJumpBuildVo.setOutputFilePath( makePath(openAvatarProperties.getStorage().getOutput(), detail.getWebglPath(), detail.getJumpId(), null) );
+		reqJumpBuildVo.setLogFilePath( makePath(openAvatarProperties.getStorage().getOutput(), detail.getWebglPath(), detail.getJumpId(), EnFileType.LOG) );
+		reqJumpBuildVo.setRename( detail.getItemkey());
 		if( EnJumpType.TEMPLATE.getCode().equals(detail.getJumpType()) ) {
 			TbJumpTemplate template = tbJumpTemplateMapper.selectTbJumpTemplateByTemplateId(detail.getTemplateId());
 			reqJumpBuildVo.setPlatform(EnTraFileName.ALL.name());
@@ -55,4 +72,15 @@ public class TbJumpService extends BaseService {
 //		reqBuildJobService.requestJumpBuildJob(reqJumpBuildVo);
 	}
 	
+	private String makePath( String subPath, String saveFilePath, Integer jumpId , EnFileType enFileType  ) {
+		String defaultPath = openAvatarProperties.getStorage().getDefaultPath();
+		Path path = null;
+		if( !ObjectUtils.isEmpty(enFileType) ) {
+			path = Paths.get(defaultPath, subPath, saveFilePath, String.valueOf(jumpId), enFileType.getCode());
+		} else {
+			path = Paths.get(defaultPath, subPath, saveFilePath, String.valueOf(jumpId));
+		}
+		
+		return path.toFile().getAbsolutePath();
+	}
 }

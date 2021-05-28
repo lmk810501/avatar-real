@@ -16,7 +16,7 @@ public class ReqJumpBuildVO implements Serializable {
 	private String outputFilePath;
 	private String logFilePath;
 	private String processingType;
-	private String rename;
+	private Integer rename;
 	private String mainTexture;
 
 	

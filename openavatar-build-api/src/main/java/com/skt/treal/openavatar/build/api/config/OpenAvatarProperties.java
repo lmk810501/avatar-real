@@ -22,6 +22,9 @@ public class OpenAvatarProperties {
 	public class Storage {
 		private String tempZipDir;
 		private String trpFileName;
+		private String defaultPath;
+		private String templateDir;
+		private String input;
+		private String output;
 	}
-	
 }

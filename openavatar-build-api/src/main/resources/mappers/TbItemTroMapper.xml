@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.skt.treal.openavatar.build.api.persist.gen.mapper.TbItemTroMapper">
+<mapper namespace="com.skt.treal.openavatar.build.api.mapper.TbItemTroMapper">
 	<resultMap type="TbItemTro" id="BaseResultMap">
 		<id 	column="tro_id"				jdbcType="INTEGER"		property="troId" />
 		<result column="itemkey" 		 	jdbcType="INTEGER"		property="itemkey" />

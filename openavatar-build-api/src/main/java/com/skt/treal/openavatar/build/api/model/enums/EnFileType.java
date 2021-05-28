@@ -8,7 +8,8 @@ public enum EnFileType {
 	TEMPLATE_TRO	( "template_tro" ),
 	TRO		("tro"), 
 	TRA		("tra"), 
-	TRP		("trp")
+	TRP		("trp"),
+	LOG		("log")
 	;
 	
 	private String code;

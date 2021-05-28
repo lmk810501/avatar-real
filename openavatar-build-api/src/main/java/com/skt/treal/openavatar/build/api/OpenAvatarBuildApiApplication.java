@@ -19,7 +19,7 @@ import org.springframework.jms.annotation.EnableJms;
 )
 @MapperScan(
 		basePackages = {
-				"com.skt.treal.openavatar.build.api.persist.gen.mapper"
+				"com.skt.treal.openavatar.build.api.mapper"
 		}
 )
 public class OpenAvatarBuildApiApplication {
